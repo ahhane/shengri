@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฅ՞•ﻌ•՞ฅ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: hsla(48, 33%, 97%, 1);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            color: #e0e0e0;
+        }
+        
+        /* Pixelated background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20px 20px, rgba(79, 172, 254, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 60px 60px, rgba(255, 107, 107, 0.1) 2px, transparent 2px);
+            background-size: 80px 80px;
+            z-index: 0;
+        }
+        
+        /* Floating pixelated hearts */
+        .floating-heart {
+            position: fixed;
+            width: 20px;
+            height: 18px;
+            animation: float 20s infinite linear;
+            z-index: 1;
+            image-rendering: pixelated;
+        }
+        
+        /* Create proper pixelated heart shape */
+        .floating-heart::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 18px;
+            background: #ff6b6b;
+            clip-path: polygon(
+                50% 100%, 20% 70%, 5% 50%, 5% 35%, 15% 15%, 35% 10%, 50% 20%, 65% 10%, 85% 15%, 95% 35%, 95% 50%, 80% 70%
+            );
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+                inset -2px -2px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Floating Shin-chan images */
+        .floating-shinchang {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            animation: floatShinchang 8s infinite linear;
+            z-index: 50;
+            image-rendering: pixelated;
+            opacity: 0.8;
+        }
+        
+        .floating-shinchang img {
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+            border: 2px solid #4facfe;
+            border-radius: 4px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes floatShinchang {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) translateX(30px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Pixelated envelope styles */
+        .envelope-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: hsla(48, 33%, 97%, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s ease;
+        }
+        
+        .envelope-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 224px;
+            background: #ffb3d1;
+            border: 4px solid #4facfe;
+            image-rendering: pixelated;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 
+                4px 4px 0 #3182ce,
+                8px 8px 0 rgba(79, 172, 254, 0.3);
+        }
+        
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+        
+        .envelope-flap {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 328px;
+            height: 160px;
+            background: #ffe0f0;
+            border: 4px solid #4facfe;
+            clip-path: polygon(50% 75%, 0 0, 100% 0);
+            z-index: 2;
+        }
+        
+        .pixelated-hearts {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            z-index: 3;
+        }
+        
+        .pixel-heart {
+            width: 24px;
+            height: 22px;
+            position: relative;
+            image-rendering: pixelated;
+        }
+        
+        .pixel-heart::before {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 22px;
+            background: #ff6b6b;
+            clip-path: polygon(
+                50% 100%, 20% 70%, 5% 50%, 5% 35%, 15% 15%, 35% 10%, 50% 20%, 65% 10%, 85% 15%, 95% 35%, 95% 50%, 80% 70%
+            );
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+                inset -2px -2px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Position stamp at bottom of V */
+        .heart-stamp {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 48px;
+            background: #ff6b6b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 4;
+            border: 4px solid #4facfe;
+            image-rendering: pixelated;
+            box-shadow: 
+                4px 4px 0 rgba(255, 107, 107, 0.8),
+                8px 8px 0 rgba(255, 107, 107, 0.4);
+        }
+        
+        .heart-stamp:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+        
+        .heart-stamp::before {
+            content: '';
+            width: 24px;
+            height: 22px;
+            background: white;
+            clip-path: polygon(
+                50% 100%, 20% 70%, 5% 50%, 5% 35%, 15% 15%, 35% 10%, 50% 20%, 65% 10%, 85% 15%, 95% 35%, 95% 50%, 80% 70%
+            );
+        }
+        
+        /* Pixelated main content */
+        .main-content {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            padding: 40px 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .main-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .letter-section {
+            position: relative;
+            background: #2d3748;
+            padding: 48px 32px 32px;
+            border: 8px solid #4facfe;
+            margin-bottom: 40px;
+            image-rendering: pixelated;
+            box-shadow: 
+                8px 8px 0 rgba(79, 172, 254, 0.5),
+                16px 16px 0 rgba(79, 172, 254, 0.2);
+        }
+        
+        .play-heart {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 36px;
+            background: #ff6b6b;
+            border: 4px solid #4facfe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            image-rendering: pixelated;
+            box-shadow: 
+                4px 4px 0 rgba(255, 107, 107, 0.8);
+        }
+        
+        .play-heart:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                6px 6px 0 rgba(255, 107, 107, 0.8);
+        }
+        
+        .play-heart:before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 12px solid white;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            margin-left: 2px;
+        }
+        
+        .letter-content {
+            min-height: 280px;
+            font-size: 19px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            background: transparent;
+            width: 100%;
+            font-family: 'Press Start 2P', cursive, monospace;
+            image-rendering: pixelated;
+            white-space: pre-wrap;
+            padding: 0;
+            font-weight: normal;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+        }
+        
+        .section-title {
+            font-size: 17px;
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 24px;
+            text-shadow: 
+                2px 2px 0 #4facfe,
+                4px 4px 0 rgba(79, 172, 254, 0.5);
+        }
+        
+        .photo-gallery {
+            background: #2d3748;
+            padding: 32px;
+            border: 8px solid #4facfe;
+            margin-bottom: 40px;
+            image-rendering: pixelated;
+            position: relative;
+            box-shadow: 
+                8px 8px 0 rgba(79, 172, 254, 0.5),
+                16px 16px 0 rgba(79, 172, 254, 0.2);
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 16px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 100%;
+            background: #4facfe;
+            image-rendering: pixelated;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            width: 16px;
+            height: 16px;
+            background: #ff6b6b;
+            border: 4px solid #2d3748;
+            image-rendering: pixelated;
+        }
+        
+        .timeline-item:nth-child(odd):before {
+            right: -56px;
+        }
+        
+        .timeline-item:nth-child(even):before {
+            left: -56px;
+        }
+        
+        .photo-upload {
+            width: 100%;
+            height: 160px;
+            border: 4px dashed #4facfe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #4facfe;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            background: #1a202c;
+            image-rendering: pixelated;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .photo-upload:hover {
+            background: #2d3748;
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
+        .photo-upload img {
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: pixelated;
+        }
+        
+        .photo-display {
+            width: 100%;
+            height: 160px;
+            border: 4px solid #4facfe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            background: #1a202c;
+            image-rendering: pixelated;
+            overflow: hidden;
+        }
+        
+        .photo-display img {
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: pixelated;
+            object-fit: cover;
+        }
+        
+        .memory-slot.hidden {
+            display: none;
+        }
+        
+        .reaction-image {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            image-rendering: pixelated;
+            z-index: 101;
+            transition: all 0.3s ease;
+        }
+        
+        .reaction-image.shake {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        
+        .reaction-image.special-shake {
+            animation: specialShake 0.1s ease-in-out infinite;
+        }
+        
+        .reaction-image.enlarge {
+            transform: scale(1.5);
+        }
+        
+        .reaction-image.special-shake.enlarge {
+            animation: specialShakeEnlarge 0.1s ease-in-out infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes specialShake {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            25% { transform: translateY(-3px) scaleY(0.95); }
+            75% { transform: translateY(3px) scaleY(1.05); }
+        }
+        
+        @keyframes specialShakeEnlarge {
+            0%, 100% { transform: scale(1.5) translateY(0) scaleY(1); }
+            25% { transform: scale(1.5) translateY(-3px) scaleY(0.95); }
+            75% { transform: scale(1.5) translateY(3px) scaleY(1.05); }
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            border: 4px solid #4facfe;
+            outline: none;
+            background: #1a202c;
+            color: #e0e0e0;
+            image-rendering: pixelated;
+        }
+        
+        .counter-section {
+            background: #2d3748;
+            padding: 32px;
+            border: 8px solid #4facfe;
+            text-align: center;
+            image-rendering: pixelated;
+            box-shadow: 
+                8px 8px 0 rgba(79, 172, 254, 0.5),
+                16px 16px 0 rgba(79, 172, 254, 0.2);
+        }
+        
+        .counter-display {
+            font-size: 32px;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-shadow: 
+                2px 2px 0 #4facfe,
+                4px 4px 0 rgba(79, 172, 254, 0.5);
+        }
+        
+        .counter-label {
+            font-size: 12px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        .audio-upload {
+            margin-top: 16px;
+            padding: 16px;
+            background: #1a202c;
+            border: 4px solid #4facfe;
+            image-rendering: pixelated;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-button {
+            background: #4facfe;
+            color: #1a202c;
+            padding: 12px 16px;
+            border: 4px solid #ff6b6b;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            image-rendering: pixelated;
+            box-shadow: 
+                4px 4px 0 #ff6b6b,
+                8px 8px 0 rgba(255, 107, 107, 0.3);
+        }
+        
+        .upload-button:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: translate(2px, 2px);
+            box-shadow: 
+                2px 2px 0 #ff6b6b,
+                4px 4px 0 rgba(255, 107, 107, 0.3);
+        }
+        
+        .upload-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+        
+        /* Pixelated scrollbar */
+        ::-webkit-scrollbar {
+            width: 16px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a202c;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #4facfe;
+            border: 2px solid #ff6b6b;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div id="floating-hearts"></div>
+    
+    <!-- Envelope opening screen -->
+    <div class="envelope-container" id="envelopeContainer">
+        <!-- Floating Shin-chan images inside envelope container -->
+        <div id="floating-shinchang" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50;"></div>
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="pixelated-hearts">
+                <div class="pixel-heart"></div>
+                <div class="pixel-heart"></div>
+                <div class="pixel-heart"></div>
+            </div>
+            <div class="heart-stamp" id="heartStamp"></div>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="main-content" id="mainContent">
+        <!-- Letter section -->
+        <div class="letter-section">
+            <div class="play-heart" id="playHeart"></div>
+            <div class="letter-content" id="letterContent">祝你的第十七岁生日快乐啊！也愿你学业有成 平平安安 每天都没有烦恼！
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⡤⠤⠤⠤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠞⠋⠁⠀⠀⠀⠀⠀⠀⠀⠉⠛⢦⣤⠶⠦⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⢀⣴⠞⢋⡽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠃⠀⠀⠙⢶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⣰⠟⠁⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡀⠀⠀⠉⠓⠦⣤⣤⣤⣤⣤⣤⣄⣀⠀⠀⠀
+                ⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣷⡄⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣆⠀
+                ⠀⠀⣠⠞⠁⠀⠀⣀⣠⣏⡀⠀⢠⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠿⡃⠀⠀⠀⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡆
+                ⢀⡞⠁⠀⣠⠶⠛⠉⠉⠉⠙⢦⡸⣿⡿⠀⠀⠀⡄⢀⣀⣀⡶⠀⠀⠀⢀⡄⣀⠀⣢⠟⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃
+                ⡞⠀⠀⠸⠁⠀⠀⠀⠀⠀⠀⠀⢳⢀⣠⠀⠀⠀⠉⠉⠀⠀⣀⠀⠀⠀⢀⣠⡴⠞⠁⠀⠀⠈⠓⠦⣄⣀⠀⠀⠀⠀⣀⣤⠞⠁⠀
+                ⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠁⠀⢀⣀⣀⡴⠋⢻⡉⠙⠾⡟⢿⣅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⠛⠉⠉⠀⠀⠀⠀
+                ⠘⣦⡀⠀⠀⠀⠀⠀⠀⣀⣤⠞⢉⣹⣯⣍⣿⠉⠟⠀⠀⣸⠳⣄⡀⠀⠀⠙⢧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠈⠙⠒⠒⠒⠒⠚⠋⠁⠀⡴⠋⢀⡀⢠⡇⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⢀⡾⠋⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⢸⡀⠸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⢠⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠉⠋⠻⣄⠀⠀⠀⠀⠀⣀⣠⣴⠞⠋⠳⠶⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠦⢤⠤⠶⠋⠙⠳⣆⣀⣈⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</div>
+        </div>
+        
+        <!-- Photo gallery -->
+        <div class="photo-gallery">
+            <h4 class="section-title">回忆录</h4>
+            <div class="timeline" id="timeline">
+                <div class="timeline-item memory-slot" data-index="0">
+                    <div class="photo-display">
+                        <img src="your-photos/photo1.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2023-02-16">
+                </div>
+                <div class="timeline-item memory-slot" data-index="1">
+                    <div class="photo-display">
+                        <img src="your-photos/photo2.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2023-08-14">
+                </div>
+                <div class="timeline-item memory-slot" data-index="2">
+                    <div class="photo-display">
+                        <img src="your-photos/photo3.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2023-09-11">
+                </div>
+                <div class="timeline-item memory-slot hidden" data-index="3">
+                    <div class="photo-display">
+                        <img src="your-photos/photo4.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2023-11-07">
+                </div>
+                <div class="timeline-item memory-slot hidden" data-index="4">
+                    <div class="photo-display">
+                        <img src="your-photos/photo5.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2023-11-24">
+                </div>
+                <div class="timeline-item memory-slot hidden" data-index="5">
+                    <div class="photo-display">
+                        <img src="your-photos/photo6.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2024-03-11">
+                </div>
+                <div class="timeline-item memory-slot hidden" data-index="6">
+                    <div class="photo-display">
+                        <img src="your-photos/photo7.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2024-06-26">
+                </div>
+                <div class="timeline-item memory-slot hidden" data-index="7">
+                    <div class="photo-display">
+                        <img src="your-photos/photo8.jpg" alt="空缺">
+                    </div>
+                    <input type="date" class="date-input" value="2024-08-02">
+                </div>
+                <div class="timeline-item memory-slot hidden" data-index="8">
+                    <div class="photo-display">
+                        <img src="your-photos/photo9.jpg" alt="奇怪 我们暂时没有任何回忆 请稍后重试～">
+                    </div>
+                    <input type="date" class="date-input" value="2024-11-05">
+                </div>
+            </div>
+            <button class="upload-button" id="showMoreButton" onclick="showNextMemory()">更多</button>
+            
+            <!-- Floating reaction image container -->
+            <div id="reactionContainer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100;"></div>
+        </div>
+        
+        
+    </div>
+    
+    <!-- Hidden file input for photos -->
+    <input type="file" id="photoFile" class="file-input" accept="image/*">
+    
+    <script>
+        let currentAudio = null;
+        let photoUploadTarget = null;
+        
+        // Create floating pixelated hearts
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floating-hearts');
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 30000);
+            }
+            
+            // Create hearts continuously
+            setInterval(createHeart, 1500);
+        }
+        
+        // Create floating Shin-chan images
+        let shinChangInterval = null;
+        
+        function createFloatingShinchang() {
+            const shinchangContainer = document.getElementById('floating-shinchang');
+            
+            function createShinchang() {
+                const shinchang = document.createElement('div');
+                shinchang.className = 'floating-shinchang';
+                shinchang.innerHTML = '<img src="shin-chan/19-1.png" alt="Shin-chan">';
+                
+                // Position randomly across the screen width
+                shinchang.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+                shinchang.style.animationDelay = Math.random() * 1 + 's';
+                shinchang.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                shinchangContainer.appendChild(shinchang);
+                
+                setTimeout(() => {
+                    if (shinchang.parentNode) {
+                        shinchang.remove();
+                    }
+                }, 8000);
+            }
+            
+            // Create Shin-chan images rapidly
+            shinChangInterval = setInterval(createShinchang, 400);
+        }
+        
+        function stopFloatingShinchang() {
+            if (shinChangInterval) {
+                clearInterval(shinChangInterval);
+                shinChangInterval = null;
+            }
+            
+            // Remove existing Shin-chan elements after a short delay
+            setTimeout(() => {
+                const shinchangContainer = document.getElementById('floating-shinchang');
+                shinchangContainer.innerHTML = '';
+            }, 2000);
+        }
+        
+        // Envelope opening animation
+        document.getElementById('heartStamp').addEventListener('click', function() {
+            const envelopeContainer = document.getElementById('envelopeContainer');
+            const mainContent = document.getElementById('mainContent');
+            
+            envelopeContainer.classList.add('hidden');
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+            }, 400);
+        });
+        
+        // Envelope hover events for Shin-chan images
+        const envelope = document.getElementById('envelope');
+        
+        envelope.addEventListener('mouseenter', function() {
+            createFloatingShinchang();
+        });
+        
+        envelope.addEventListener('mouseleave', function() {
+            stopFloatingShinchang();
+        });
+        
+        // Day counter function removed since section was deleted
+        
+        // Audio functionality - hardcoded audio file
+        // Replace 'love-song.mp3' with your actual audio file path
+        currentAudio = new Audio('love-song.mp3');
+        
+        document.getElementById('playHeart').addEventListener('click', function() {
+            if (currentAudio.paused) {
+                currentAudio.play();
+                this.style.background = '#4facfe';
+            } else {
+                currentAudio.pause();
+                this.style.background = '#ff6b6b';
+            }
+        });
+        
+        // Memory display functionality
+        let visibleMemories = 3;
+        let maxMemories = 9;
+        let currentReactionFolder = 1;
+        
+        function showNextMemory() {
+            const button = document.getElementById('showMoreButton');
+            const reactionContainer = document.getElementById('reactionContainer');
+            
+            if (visibleMemories < maxMemories) {
+                // Show next memory
+                const nextMemory = document.querySelector(`.memory-slot[data-index="${visibleMemories}"]`);
+                if (nextMemory) {
+                    nextMemory.classList.remove('hidden');
+                    
+                    // Show reaction image
+                    showReactionImage(currentReactionFolder, nextMemory);
+                    currentReactionFolder++;
+                    
+                    visibleMemories++;
+                    
+                    // Update button text when all memories are shown
+                    if (visibleMemories === maxMemories) {
+                        button.textContent = '没得了';
+                    }
+                }
+            } else {
+                // All memories shown, show special reaction
+                const lastMemory = document.querySelector(`.memory-slot[data-index="${maxMemories - 1}"]`);
+                showSpecialReaction(lastMemory);
+            }
+        }
+        
+        // *** REACTION IMAGE FOLDER CONFIGURATION ***
+        // Change these folder names to match your image folders
+        const REACTION_FOLDERS = ['1', '2', '3', '4', '5', '6']; // Folders 1-6 for normal reactions
+        const SPECIAL_REACTION_FOLDER = '7'; // Folder 7 for special reaction
+        const REACTION_IMAGE_NAME = '19-1.png'; // Image filename in each folder
+        
+        function showReactionImage(folderNumber, targetMemory) {
+            const reactionContainer = document.getElementById('reactionContainer');
+            const reaction = document.createElement('img');
+            reaction.className = 'reaction-image';
+            reaction.src = `${REACTION_FOLDERS[folderNumber - 1]}/${REACTION_IMAGE_NAME}`;
+            reaction.alt = 'Reaction';
+            
+            // Get the gallery container for relative positioning
+            const galleryRect = document.querySelector('.photo-gallery').getBoundingClientRect();
+            const timelineContainer = document.getElementById('timeline');
+            
+            // Calculate position in the empty space aligned with centers
+            let leftPos, topPos;
+            
+            if (visibleMemories > 1) {
+                // Get the previous memory for positioning
+                const prevMemory = document.querySelector(`.memory-slot[data-index="${visibleMemories - 2}"]`);
+                const currentMemory = targetMemory;
+                
+                if (prevMemory && currentMemory) {
+                    const prevRect = prevMemory.getBoundingClientRect();
+                    const currentRect = currentMemory.getBoundingClientRect();
+                    
+                    // Calculate center positions
+                    const prevCenterX = prevRect.left + prevRect.width / 2;
+                    const currentCenterX = currentRect.left + currentRect.width / 2;
+                    const prevCenterY = prevRect.top + prevRect.height / 2;
+                    const currentCenterY = currentRect.top + currentRect.height / 2;
+                    
+                    // Position in the center between the two photos horizontally
+                    const centerX = (prevCenterX + currentCenterX) / 2;
+                    leftPos = (centerX - galleryRect.left - 30) + 'px'; // 30 is half the reaction image width
+                    
+                    // Position under the previous photo, aligned vertically with both centers
+                    const centerY = (prevCenterY + currentCenterY) / 2;
+                    topPos = (centerY - galleryRect.top + prevRect.height / 2 + 20) + 'px'; // 20px spacing
+                }
+            }
+            
+            // Fallback positioning if calculation fails
+            if (!leftPos || !topPos) {
+                const memoryRect = targetMemory.getBoundingClientRect();
+                leftPos = (memoryRect.left - galleryRect.left + memoryRect.width / 2 - 30) + 'px';
+                topPos = (memoryRect.bottom - galleryRect.top + 20) + 'px';
+            }
+            
+            reaction.style.position = 'absolute';
+            reaction.style.left = leftPos;
+            reaction.style.top = topPos;
+            
+            reactionContainer.appendChild(reaction);
+            
+            // Remove after short delay
+            setTimeout(() => {
+                if (reaction.parentNode) {
+                    reaction.remove();
+                }
+            }, 1500);
+        }
+        
+        function showSpecialReaction(targetMemory) {
+            const reactionContainer = document.getElementById('reactionContainer');
+            const reaction = document.createElement('img');
+            reaction.className = 'reaction-image special-shake enlarge';
+            reaction.src = `${SPECIAL_REACTION_FOLDER}/${REACTION_IMAGE_NAME}`;
+            reaction.alt = 'Special Reaction';
+            
+            // Get the gallery container and button for relative positioning
+            const galleryRect = document.querySelector('.photo-gallery').getBoundingClientRect();
+            const button = document.getElementById('showMoreButton');
+            const buttonRect = button.getBoundingClientRect();
+            
+            // Position next to the button
+            const leftPos = (buttonRect.right - galleryRect.left + 20) + 'px'; // 20px spacing from button
+            const topPos = (buttonRect.top - galleryRect.top + buttonRect.height / 2 - 45) + 'px'; // Center vertically with button, 45 is half the enlarged image height
+            
+            reaction.style.position = 'absolute';
+            reaction.style.left = leftPos;
+            reaction.style.top = topPos;
+            
+            reactionContainer.appendChild(reaction);
+            
+            // Stop shaking and return to normal size after 2 seconds
+            setTimeout(() => {
+                reaction.classList.remove('special-shake', 'enlarge');
+            }, 2000);
+            
+            // Remove after total of 4 seconds
+            setTimeout(() => {
+                if (reaction.parentNode) {
+                    reaction.remove();
+                }
+            }, 4000);
+        }
+        
+        // Initialize
+        createFloatingHearts();
+    </script>
+</body>
+</html>
